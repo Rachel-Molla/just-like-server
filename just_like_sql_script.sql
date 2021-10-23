@@ -10,7 +10,7 @@ use just_like_db;
 show tables;
 
 CREATE TABLE IF NOT EXISTS `just_like_accounts` (
-  `id` int NOT NULL AUTO_INCREMENT unique,
+  `uuid` int NOT NULL AUTO_INCREMENT unique,
   `type` enum( "task_manager" , "volunteer" , "junior" ),
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `just_like_accounts` (
   `twitter_account` varchar(100),
   `facebook_account` varchar(100),
   `areas_of_interest` SET( "job_search", "lecture", "workshop" ),
-  CONSTRAINT PK_Account PRIMARY KEY (ID)
+  CONSTRAINT PK_Account PRIMARY KEY (uuid)
 );
 
 select * from just_like_accounts;
