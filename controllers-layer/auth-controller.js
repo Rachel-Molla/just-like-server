@@ -3,7 +3,7 @@ const authLogic = require("../business-logic-layer/auth-logic");
 const errorsHelper = require("../helpers/errors-helper");
 const svgCaptcha = require("svg-captcha");
 const cryptoHelper = require("../helpers/crypto-helper");
-const verifyCaptcha = require("../middleware/verify-captcha");
+//const verifyCaptcha = require("../middleware/verify-captcha");
 const router = express.Router();
 
 // define root route

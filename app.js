@@ -1,16 +1,15 @@
 global.config = require(process.env.NODE_ENV === "production" ? "./config-prod.json" : "./config-dev.json");
 const express = require("express");
+var path = require('path');
 const cookie = require("cookie-parser"); 
 const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
 const authController = require("./controllers-layer/auth-controller");
-const nodemon = require("nodemon");
-
+const http = require('http');
 
 // create express app
 const server = express();
-
 
 // DOS Attack protection:
 server.use("/api/", expressRateLimit({
@@ -33,5 +32,7 @@ server.use("/api/auth",authController);
 
 // setup the server port 
 const port = process.env.PORT || 3001;
+
 //listen to the port
-server.listen(port, () => console.log(`server is running at port ${port}`));
+const httpServer = http.createServer(server);
+httpServer.listen(port, () => console.log(`HTTP server is running at port ${port}`));

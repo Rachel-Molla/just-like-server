@@ -109,23 +109,6 @@ create table if not exists task_team (
 
 show tables;
 
--- Find all users registered for a project:
-select user_accounts.* 
-from user_accounts 
-join project_membership 
-on user_accounts.uuid = project_membership.user_id
-where project_membership.prject_id = 1;
-    
--- Find all projects taken part by a same user:
-select projects.* 
-from projects 
-join project_membership 
-on projects.project_id = project_membership.project_id
-where project_membership = 1; 
         
-create user admin identified by "the_secure_password";
 
-grant all privileges on just_like_db.* to admin;
-
-show grants for admin;
 
