@@ -10,6 +10,10 @@ const http = require('http');
 
 // create express app
 const server = express();
+const httpServer = http.createServer(server);
+const io = require('socket.io')(http);
+const url = require("url");
+const bodyParser = require('body-parser');
 
 // DOS Attack protection:
 server.use("/api/", expressRateLimit({
@@ -34,5 +38,5 @@ server.use("/api/auth",authController);
 const port = process.env.PORT || 3001;
 
 //listen to the port
-const httpServer = http.createServer(server);
+
 httpServer.listen(port, () => console.log(`HTTP server is running at port ${port}`));
