@@ -5,8 +5,11 @@ const cookie = require("cookie-parser");
 const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
-const authController = require("./controllers-layer/auth-controller");
+//const authController = require("./controllers-layer/auth-controller");
 const http = require('http');
+
+const loginRouter = require('./src/routes/login');
+const signUpRouter = require('./src/routes/signUp');
 
 // create express app
 const server = express();
@@ -32,11 +35,14 @@ server.use(sanitize);
 //enable access to the api from outside origins
 server.use(cors());
 
-server.use("/api/auth",authController);
-
+//server.use("/api/auth",authController);
+server.use('/login', loginRouter);
+server.use('/signUp', signUpRouter);
+  
 // setup the server port 
 const port = process.env.PORT || 3001;
 
 //listen to the port
 
 httpServer.listen(port, () => console.log(`HTTP server is running at port ${port}`));
+
