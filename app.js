@@ -38,7 +38,7 @@ server.use(cors());
 //server.use("/api/auth",authController);
 server.use('/login', loginRouter);
 server.use('/signUp', signUpRouter);
-  
+
 // setup the server port 
 const port = process.env.PORT || 3001;
 
