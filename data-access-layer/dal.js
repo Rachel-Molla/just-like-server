@@ -24,5 +24,5 @@ function executeAsync(sql,values) {
 }
 
 module.exports = {
-    executeAsync, connection
+    executeAsync
 };
