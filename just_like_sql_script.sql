@@ -8,7 +8,6 @@ show tables;
 
 create table if not exists user_accounts (
 	uuid int unsigned not null auto_increment unique,
-    user_name varchar(50) not null unique, 
     password varchar(255) not null unique,
     email varchar(100) not null,
     first_name varchar(50) not null,
@@ -17,6 +16,7 @@ create table if not exists user_accounts (
     linkedin_profile varchar(100) not null,
 	permission_level enum( "admin", "task_manager" , "volunteer" , "junior" ),
     areas_of_interest SET( "job_search", "lecture", "workshop", "else" ),
+	area_of_specialization SET( "Software development", "UI/UX design", "Product management", "QA" ,"Other" ),
     constraint PK_userId primary key (uuid)
 );
 

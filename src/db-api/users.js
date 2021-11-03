@@ -13,9 +13,9 @@ function getUser(email, password) {
   });
 }
 
-function sendUser(userName, firstName, lastName, linkedin, phone, email, password){
+function sendUser(firstName, lastName, linkedin, phone, permission, interest, specialization, email, password){
   return new Promise((resolve, reject)=>{
-    connection.query('insert into user_accounts(user_name, first_name, last_name, linkedin_profile, phone_number, email, password) values(?,?,?,?,?,?,?)', [userName, firstName, lastName, linkedin, phone, email, password], (error, results) =>{
+    connection.query('insert into user_accounts(first_name, last_name, linkedin_profile, phone_number, permission_level, areas_of_interest, area_of_specialization, email, password) values(?,?,?,?,?,?,?,?,?)', [firstName, lastName, linkedin, phone, permission, interest, specialization, email, password], (error, results) =>{
       if (error){
         reject(error);
         return;
