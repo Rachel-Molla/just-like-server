@@ -25,7 +25,7 @@ select * from user_accounts;
 create table if not exists departments (
 	department_id tinyint unsigned not null unique,
 	task_manager_id int unsigned not null auto_increment unique,
-	department_type enum("community management", "junior training", "jobs"),
+	department_type enum("Strategy", "Guidance", "Design", "Community management"),
 	constraint PK_department primary key (department_id),
 	constraint FK_departmentTaskManager foreign key (task_manager_id) references user_accounts(uuid)
 );
