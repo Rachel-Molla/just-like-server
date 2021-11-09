@@ -2,7 +2,7 @@
     "mysql": {
         "host": "localhost",
         "user": "root",
-        "password": "#java_like",
+        "password": "#just_like",
         "name": "just_like_db"
     },
     

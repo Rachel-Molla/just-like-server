@@ -1,4 +1,6 @@
-create database if not exists just_like_db default character set utf8mb4 collate utf8mb4_0900_ai_ci;
+drop database just_like_db;
+
+create database if not exists just_like_db;
 
 show databases;
 
@@ -17,6 +19,7 @@ create table if not exists user_accounts (
 	permission_level enum( "admin", "task_manager" , "volunteer" , "junior" ),
     areas_of_interest SET( "job_search", "lecture", "workshop", "else" ),
 	area_of_specialization SET( "Software development", "UI/UX design", "Product management", "QA" ,"Other" ),
+    registration_date datetime,
     constraint PK_userId primary key (uuid)
 );
 
