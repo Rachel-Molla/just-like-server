@@ -1,0 +1,9 @@
+{
+    "mysql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "#just_like",
+        "name": "just_like_db"
+    },
+    "jwtKey": "just_like"
+}
