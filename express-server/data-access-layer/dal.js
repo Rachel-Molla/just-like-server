@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 
-const connection = mysql.createPool({
+// Create a connection to the database
+const connection = mysql.createConnection({
     
     multipleStatements: true,
 
@@ -14,6 +15,16 @@ const connection = mysql.createPool({
 
 });
 
+
+// open the MySQL connection
+connection.connect(error => {
+    if (error) throw error;
+    console.log("Successfully connected to the database.");
+});
+  
+module.exports = connection;
+
+/*
 function executeAsync(sql,values) {
     return new Promise((resolve, reject) => {
         connection.query(sql, values,(err, result) => {
@@ -27,3 +38,5 @@ function executeAsync(sql,values) {
 module.exports = {
     executeAsync
 };
+
+*/
