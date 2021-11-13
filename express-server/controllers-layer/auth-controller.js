@@ -26,7 +26,7 @@ router.post("/register", async (request, response) => {
     }
 });
 
-router.post("/login", async (request, response) => {
+router.get("/login", async (request, response) => {
     try {
         const loggedInUser = await authLogic.loginAsync(request.body);
         if (!loggedInUser) return response.status(401).send("Incorrect username or password.");

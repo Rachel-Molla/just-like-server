@@ -11,9 +11,8 @@ async function registerAsync(user) {
     // Create uuid:
     user.uuid = uuid.v4();
 
-    const sql = "INSERT INTO user_accounts VALUES(DEFAULT, ?, ?, ?, ?, ?,DEFAULT)";
-    const info = await dal.executeAsync(sql, [user.uuid, user.first_name, user.last_name, user.linkedin_profile, user.password]);
-
+    const sql = "INSERT INTO user_accounts(email, first_name, last_name, phone_number, linkedin_profile, password) VALUES(?, ?, ?, ?, ?, ?)";
+    const info = await dal.executeAsync(sql, [user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.password]);
     // Delete password so it wont return to the frontend:
     delete user.password;
 
@@ -27,8 +26,8 @@ async function loginAsync(credentials) {
 
     credentials.password = cryptoHelper.hash(credentials.password);
 
-    const sql = `SELECT uuid, first_name, last_name, user_name , isAdmin FROM users WHERE user_name = ? AND password = ?`;
-    const users = await dal.executeAsync(sql, [credentials.user_name, credentials.password]);
+    const sql = `SELECT * FROM user_accounts WHERE email = ? AND password = ?`;
+    const users = await dal.executeAsync(sql, [credentials.email, credentials.password]);
     if (users.length === 0) return null;
     const user = users[0];
 
