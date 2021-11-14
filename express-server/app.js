@@ -8,7 +8,7 @@ const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
 const authController = require("./controllers-layer/auth-controller");
-//const userAccountsRouter = require("./routes/user-accounts.routes")
+const userAccountsRoutes = require("./routes/user-accounts.routes")
 //const io = require('socket.io')(http);
 //const url = require("url");
 //const bodyParser = require('body-parser');
@@ -47,8 +47,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth",authController);
-
-//app.use('/api/accounts', userAccountsRouter);
+app.use('/api/auth/accounts', userAccountsRoutes);
 
 
 // catch 404 and forward to error handler

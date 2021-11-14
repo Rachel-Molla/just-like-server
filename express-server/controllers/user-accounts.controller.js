@@ -1,7 +1,7 @@
 const UserAccount = require("../models/user-accounts.model");
 
 // Create and Save a new UserAccount
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -32,6 +32,7 @@ exports.create = (req, res) => {
       });
     else res.send(data);
   });
+
 };
   
 // Retrieve all UserAccount from the database 
