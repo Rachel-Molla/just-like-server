@@ -7,7 +7,6 @@ var logger = require('morgan');
 const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
-const authController = require("./controllers-layer/auth-controller");
 const userAccountsRoutes = require("./routes/user-accounts.routes")
 //const io = require('socket.io')(http);
 //const url = require("url");
@@ -46,7 +45,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to application." });
 });
 
-app.use("/api/auth",authController);
 app.use('/api/auth/accounts', userAccountsRoutes);
 
 

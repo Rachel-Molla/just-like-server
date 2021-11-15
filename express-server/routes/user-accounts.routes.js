@@ -1,9 +1,14 @@
 const user_accounts = require("../controllers/user-accounts.controller");
 
-var router = require("express").Router();
+const express = require("express");
+const router = express.Router();
+
+router.get("/captcha", user_accounts.captcha);
+
+router.get("/login", user_accounts.login);
 
 // Create a new user account
-router.post("/", user_accounts.create);
+router.post("/register", user_accounts.register);
 
 // Retrieve all user accounts
 router.get("/", user_accounts.findAll);
