@@ -26,8 +26,8 @@ UserAccount.registerAsync = async (user) => {
   // Create uuid:
   user.uuid = uuid.v4();
 
-  const sql = "INSERT INTO user_accounts(email, first_name, last_name, phone_number, linkedin_profile, password) VALUES(?, ?, ?, ?, ?, ?)";
-  const info = await dal.executeAsync(sql, [user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.password]);
+  const query = "INSERT INTO user_accounts(email, first_name, last_name, phone_number, linkedin_profile, password) VALUES(?, ?, ?, ?, ?, ?)";
+  const info = await dal.executeAsync(query, [user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.password]);
 
   // Delete password so it wont return to the frontend:
   delete user.password;
@@ -43,8 +43,8 @@ UserAccount.loginAsync = async (credentials) => {
 
   credentials.password = cryptoHelper.hash(credentials.password);
 
-  const sql = `SELECT * FROM user_accounts WHERE email = ? AND password = ?`;
-  const users = await dal.executeAsync(sql, [credentials.email, credentials.password]);
+  const query = `SELECT * FROM user_accounts WHERE email = ? AND password = ?`;
+  const users = await dal.executeAsync(query, [credentials.email, credentials.password]);
   if (users.length === 0) return null;
   const user = users[0];
 
@@ -54,9 +54,9 @@ UserAccount.loginAsync = async (credentials) => {
   return user;
 }
 
-UserAccount.findById = async (id, result) => {
-  const sql = `SELECT * FROM user_accounts WHERE uuid = ?`;
-  const user = await dal.executeAsync(sql, id);
+UserAccount.findById = async (id) => {
+  const query = `SELECT * FROM user_accounts WHERE uuid = ?`;
+  const user = await dal.executeAsync(query, id);
   return user;
 };
 
@@ -66,59 +66,24 @@ UserAccount.getAll = async () => {
   return users;
 };
 
-UserAccount.updateById = (id, newUser, result) => {
-  sql.query(
-    "UPDATE user_accounts SET email = ?, first_name = ?, last_name = ? WHERE uuid = ?",
-    [newUser.email, newUser.first_name, newUser.last_name, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found UserAccount with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated user account: ", { id: id, ...newUser });
-      result(null, { id: id, ...newUser });
-    }
-  );
+UserAccount.updateById = async (id, newUser) => {
+  let query = "UPDATE user_accounts SET email = ?, first_name = ?, last_name = ? WHERE uuid = ?";
+  const user = await dal.executeAsync(query, [newUser.email, newUser.first_name, newUser.last_name, id]);
+  return user;
 };
 
-UserAccount.remove = (id, result) => {
-  sql.query("DELETE FROM user_accounts WHERE uuid = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found UserAccount with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted user account with id: ", id);
-    result(null, res);
-  });
+UserAccount.remove = async (id) => {
+  let query = "DELETE FROM user_accounts WHERE uuid = ?";
+  const user = await dal.executeAsync(query, id);
+  return user;
 };
 
-UserAccount.removeAll = result => {
-  sql.query("DELETE FROM user_accounts", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+UserAccount.removeAll = async() => {
 
-    console.log(`deleted ${res.affectedRows} user accounts`);
-    result(null, res);
-  });
+  let query = "DELETE * FROM user_accounts";
+  const users = await dal.executeAsync(query);
+  return users;
+
 };
 
 module.exports = UserAccount;

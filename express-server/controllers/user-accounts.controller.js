@@ -17,7 +17,7 @@ exports.captcha = (request, response) => {
 exports.login = async (request, response) => {
   try {
       const loggedInUser = await UserAccount.loginAsync(request.body);
-      if (!loggedInUser) return response.status(401).send("Incorrect username or password.");
+      if (!loggedInUser) return response.status(401).send("Incorrect email or password.");
       response.json(loggedInUser);
   }
   catch (err) {
@@ -36,123 +36,77 @@ exports.register = async (request, response) => {
     response.status(500).send(errorsHelper.getError(err));
   }
 
-  /*
-  // Validate request
-  if (!request.body) {
-    response.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-
-  // Create a UserAccount
-  const user_account = new UserAccount({
-    password: request.body.password,
-    email: request.body.email,
-    first_name: request.body.first_name,
-    last_name: request.body.last_name,
-    phone_number: request.body.phone_number,
-    linkedin_profile: request.body.linkedin_profile,
-    permission_level: request.body.permission_level,
-    areas_of_interest: request.body.areas_of_interest,
-    area_of_specialization: request.body.area_of_specialization,
-  });
-
-  
-  // Save UserAccount in the database
-  UserAccount.create(user_account, (err, data) => {
-    if (err)
-      response.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the UserAccount."
-      });
-    else response.send(data);
-  });
-  */
-
 };
   
 // Retrieve all UserAccount from the database 
-exports.findAll = (request, response) => {
-  UserAccount.getAll(request, (err, data) => {
-    if (err)
-    response.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving UserAccounts."
-      });
-    else response.send(data);
-  });
+exports.findAll = async (request, response) => {
+
+  try {
+    const allUsers = await UserAccount.getAll();
+    response.status(201).json(allUsers);
+  }
+  catch (err) {
+    response.status(500).send(errorsHelper.getError(err));
+  }
+
 };
   
 // Find a single UserAccount with a id
-exports.findOne = (request, response) => {
-  UserAccount.findById(request.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        response.status(404).send({
-          message: `Not found UserAccount with id ${request.params.id}.`
-        });
-      } else {
-        response.status(500).send({
-          message: "Error retrieving UserAccount with id " + request.params.id
-        });
-      }
-    } else response.send(data);
-  });
+exports.findOne = async (request, response) => {
+
+  try {
+    const user = await UserAccount.findById(request.params.id);
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    response.status(201).json(user);
+  }
+  catch (err) {
+    response.status(500).send(errorsHelper.getError(err));
+  }
+
 };
 
 
 // Update a UserAccount identified by the id in the request
-exports.update = (request, response) => {
-  // Validate Request
-  if (!request.body) {
-    response.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
+exports.update = async (request, response) => {
 
+  if (!request.body) return response.status(400).send("Content can not be empty!");
   console.log(request.body);
 
-  UserAccount.updateById( request.params.id, new UserAccount(request.body), (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        response.status(404).send({
-          message: `Not found UserAccount with id ${request.params.id}.`
-        });
-      } else {
-        response.status(500).send({
-          message: "Error updating UserAccount with id " + request.params.id
-        });
-      }
-    } else response.send(data);
-  });
+  try {
+    const user = await UserAccount.updateById(request.params.id, new UserAccount(request.body));
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    response.status(201).json(user);
+  }
+  catch (err) {
+    response.status(500).send(errorsHelper.getError(err));
+  }
+
 };
 
 // Delete a UserAccount with the specified id in the request
-exports.delete = (request, response) => {
-  UserAccount.remove(request.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        response.status(404).send({
-          message: `Not found UserAccount with id ${request.params.id}.`
-        });
-      } else {
-        response.status(500).send({
-          message: "Could not delete UserAccount with id " + request.params.id
-        });
-      }
-    } else response.send({ message: `UserAccount was deleted successfully!` });
-  });
+exports.delete = async (request, response) => {
+
+  try {
+    const user = await UserAccount.remove(request.params.id);
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    response.status(201).json(user);
+  }
+  catch (err) {
+    response.status(500).send(errorsHelper.getError(err));
+  }
+
 };
 
 // Delete all UserAccounts from the database.
-exports.deleteAll = (request, response) => {
-  UserAccount.removeAll((err, data) => {
-    if (err)
-      response.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all UserAccounts."
-      });
-    else response.send({ message: `All UserAccounts were deleted successfully!` });
-  });
+exports.deleteAll = async (request, response) => {
+
+  try {
+    const users = await UserAccount.removeAll();
+    if (!users) return response.status(401).send("Some error occurred while removing all UserAccounts.");
+    response.status(201).json(users);
+  }
+  catch (err) {
+    response.status(500).send(errorsHelper.getError(err));
+  }
+
 };

@@ -15,9 +15,9 @@ const connection = mysql.createPool({
 });
 
 
-function executeAsync(sql,values) {
+function executeAsync(query, values) {
     return new Promise((resolve, reject) => {
-        connection.query(sql, values,(err, result) => {
+        connection.query(query, values,(err, result) => {
             if(err) return reject(err);
             console.log("MySQL connect successfully");
             resolve(result);
