@@ -55,11 +55,6 @@ UserAccount.loginAsync = async (credentials) => {
   return user;
 }
 
-UserAccount.findById = async (id) => {
-  const query = `SELECT * FROM user_accounts WHERE uuid = ?`;
-  const user = await dal.executeAsync(query, id);
-  return user;
-};
 
 UserAccount.getAll = async () => {
   let query = "SELECT * FROM user_accounts";
@@ -67,15 +62,27 @@ UserAccount.getAll = async () => {
   return users;
 };
 
-UserAccount.updateById = async (id, updateUser) => {
-  let query = "UPDATE user_accounts SET password = ?, email = ?, first_name = ?, last_name = ?, phone_number = ?, linkedin_profile = ?, permission_level = ?, areas_of_interest = ?, area_of_specialization = ? WHERE uuid = ?";
-  const user = await dal.executeAsync(query, [updateUser.password, updateUser.email, updateUser.first_name, updateUser.last_name, updateUser.phone_number, updateUser.linkedin_profile, updateUser.permission_level, updateUser.areas_of_interest, updateUser.area_of_specialization, id]);
+
+UserAccount.findById = async (uuid) => {
+  let query = `SELECT * FROM user_accounts WHERE uuid = ?`;
+  const user = await dal.executeAsync(query, uuid);
   return user;
 };
 
-UserAccount.remove = async (id) => {
+
+UserAccount.updateById = async (uuid, updateUser) => {
+
+  updateUser.password = cryptoHelper.hash(updateUser.password);
+  
+  let query = "UPDATE user_accounts SET password = ?, email = ?, first_name = ?, last_name = ?, phone_number = ?, linkedin_profile = ?, permission_level = ?, areas_of_interest = ?, area_of_specialization = ? WHERE uuid = ?";
+  const user = await dal.executeAsync(query, [updateUser.password, updateUser.email, updateUser.first_name, updateUser.last_name, updateUser.phone_number, updateUser.linkedin_profile, updateUser.permission_level, updateUser.areas_of_interest, updateUser.area_of_specialization, uuid]);
+  return user;
+
+};
+
+UserAccount.remove = async (uuid) => {
   let query = "DELETE FROM user_accounts WHERE uuid = ?";
-  const user = await dal.executeAsync(query, id);
+  const user = await dal.executeAsync(query, uuid);
   return user;
 };
 

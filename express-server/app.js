@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to application." });
 });
 
-app.use('/api/auth/accounts', userAccountsRoutes);
+app.use('/api/accounts', userAccountsRoutes);
 
 
 // catch 404 and forward to error handler

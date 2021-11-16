@@ -60,7 +60,7 @@ exports.register = async (request, response) => {
 };
   
 // Retrieve all UserAccount from the database 
-exports.findAll = async (request, response) => {
+exports.getAll = async (request, response) => {
 
   try {
     const allUsers = await UserAccount.getAll();
@@ -72,12 +72,12 @@ exports.findAll = async (request, response) => {
 
 };
   
-// Find a single UserAccount with a id
+// Find a single UserAccount with a uuid
 exports.findOne = async (request, response) => {
 
   try {
-    const user = await UserAccount.findById(request.params.id);
-    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    const user = await UserAccount.findById(request.params.uuid);
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.uuid}`);
     response.status(201).json(user);
   }
   catch (err) {
@@ -87,15 +87,15 @@ exports.findOne = async (request, response) => {
 };
 
 
-// Update a UserAccount identified by the id in the request
-exports.update = async (request, response) => {
+// Update a UserAccount identified by the uuid in the request
+exports.updateOne = async (request, response) => {
 
   if (!request.body) return response.status(400).send("Content can not be empty!");
   console.log(request.body);
 
   try {
-    const user = await UserAccount.updateById(request.params.id, request.body);
-    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    const user = await UserAccount.updateById(request.params.uuid, request.body);
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.uuid}`);
     response.status(201).json(user);
   }
   catch (err) {
@@ -104,12 +104,12 @@ exports.update = async (request, response) => {
 
 };
 
-// Delete a UserAccount with the specified id in the request
-exports.delete = async (request, response) => {
+// Delete a UserAccount with the specified uuid in the request
+exports.deleteOne = async (request, response) => {
 
   try {
-    const user = await UserAccount.remove(request.params.id);
-    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
+    const user = await UserAccount.remove(request.params.uuid);
+    if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.uuid}`);
     response.status(201).json(user);
   }
   catch (err) {

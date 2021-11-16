@@ -11,16 +11,16 @@ router.get("/login", user_accounts.login);
 router.post("/register", user_accounts.register);
 
 // Retrieve all user accounts
-router.get("/", user_accounts.findAll);
+router.get("/", user_accounts.getAll);
 
-// Retrieve a single user account with id
-router.get("/:id", user_accounts.findOne);
+// Retrieve a single user account with uuid
+router.get("/:uuid", user_accounts.findOne);
 
-// Update a user account with id
-router.put("/:id", user_accounts.update);
+// Update a user account with uuid
+router.put("/:uuid", user_accounts.updateOne);
 
-// Delete a user account with id
-router.delete("/:id", user_accounts.delete);
+// Delete a user account with uuid
+router.delete("/:uuid", user_accounts.deleteOne);
 
 // Delete all user accounts
 router.delete("/", user_accounts.deleteAll);
