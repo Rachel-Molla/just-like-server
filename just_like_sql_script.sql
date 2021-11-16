@@ -9,7 +9,7 @@ use just_like_db;
 show tables;
 
 create table if not exists user_accounts (
-	uuid int unsigned not null auto_increment unique,
+	uuid varchar(300) not null unique,
     password varchar(255) not null unique,
     email varchar(100) not null,
     first_name varchar(50) not null,
@@ -27,7 +27,7 @@ select * from user_accounts;
 
 create table if not exists departments (
 	department_id tinyint unsigned not null unique,
-	task_manager_id int unsigned not null auto_increment unique,
+	task_manager_id varchar(300) not null unique,
 	department_type enum("Strategy", "Guidance", "Design", "Community management"),
 	constraint PK_department primary key (department_id),
 	constraint FK_departmentTaskManager foreign key (task_manager_id) references user_accounts(uuid)
@@ -36,10 +36,10 @@ create table if not exists departments (
 select * from departments;
 
 create table if not exists department_membership (
-	user_id int unsigned not null,
+	uuid varchar(300) not null unique,
 	department_id tinyint unsigned not null,
-	primary key( user_id, department_id),
-	constraint constr_departmentMembership_userId_fk foreign key userId_fk(user_id) references user_accounts(uuid)
+	primary key(uuid , department_id),
+	constraint constr_departmentMembership_userId_fk foreign key userId_fk(uuid) references user_accounts(uuid)
 	on delete cascade on update cascade,    
 	constraint constr_departmentMembership_departmentId_fk foreign key departmentId_fk(department_id) references departments(department_id)
 	on delete cascade on update cascade
@@ -48,7 +48,7 @@ create table if not exists department_membership (
 create table if not exists projects (
 	project_id int unsigned not null auto_increment unique,
     department_id tinyint unsigned not null,
-	task_manager_id int unsigned not null,
+	task_manager_id varchar(300) not null unique,
 	project_title tinytext,
     project_description text,
     number_of_tasks int unsigned default 0,
@@ -65,10 +65,10 @@ create table if not exists projects (
 select * from projects;
 
 create table if not exists project_membership (
-	user_id int unsigned not null,
+	uuid varchar(300) not null unique,
 	project_id int unsigned not null,
-	primary key( user_id, project_id),
-	constraint constr_projectMembership_userId_fk foreign key userId_fk(user_id) references user_accounts(uuid)
+	primary key( uuid, project_id),
+	constraint constr_projectMembership_userId_fk foreign key userId_fk(uuid) references user_accounts(uuid)
 	on delete cascade on update cascade,    
 	constraint constr_projectMembership_projectId_fk foreign key projectId_fk(project_id) references projects(project_id)
 	on delete cascade on update cascade
@@ -78,8 +78,8 @@ create table if not exists tasks (
 	task_id int unsigned not null auto_increment unique,
     department_id tinyint unsigned,
     project_id int unsigned,
-    task_initiator_id int unsigned not null,
-    task_manager_id int unsigned not null,
+    task_initiator_id varchar(300) not null unique,
+    task_manager_id varchar(300) not null unique,
 	task_type enum( "general", "design", "substance"),
     task_title tinytext,
     task_description text,
@@ -101,10 +101,10 @@ create table if not exists tasks (
 select * from tasks;
 
 create table if not exists task_team (
-	user_id int unsigned not null,
+	uuid varchar(300) not null unique,
 	task_id int unsigned not null,
-	primary key( user_id, task_id),
-	constraint constr_taskTeam_userId_fk foreign key userId_fk(user_id) references user_accounts(uuid)
+	primary key( uuid, task_id),
+	constraint constr_taskTeam_userId_fk foreign key userId_fk(uuid) references user_accounts(uuid)
 	on delete cascade on update cascade,    
 	constraint constr_taskTeam_taskId_fk foreign key taskId_fk(task_id) references tasks(task_id)
 	on delete cascade on update cascade

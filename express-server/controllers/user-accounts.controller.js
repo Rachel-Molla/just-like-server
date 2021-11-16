@@ -37,6 +37,7 @@ exports.register = async (request, response) => {
   
   // Create a UserAccount
   const user_account = new UserAccount({
+    uuid: request.body.uuid,
     password: request.body.password,
     email: request.body.email,
     first_name: request.body.first_name,
