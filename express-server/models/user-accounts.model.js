@@ -26,8 +26,8 @@ UserAccount.registerAsync = async (user) => {
   // Create uuid:
   user.uuid = uuid.v4();
 
-  const query = "INSERT INTO user_accounts(email, first_name, last_name, phone_number, linkedin_profile, password) VALUES(?, ?, ?, ?, ?, ?)";
-  const info = await dal.executeAsync(query, [user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.password]);
+  const query = "INSERT INTO user_accounts(password, email, first_name, last_name, phone_number, linkedin_profile, permission_level, areas_of_interest, area_of_specialization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )";
+  const info = await dal.executeAsync(query, [user.password, user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.permission_level, user.areas_of_interest, user.area_of_specialization]);
 
   // Delete password so it wont return to the frontend:
   delete user.password;
@@ -66,9 +66,9 @@ UserAccount.getAll = async () => {
   return users;
 };
 
-UserAccount.updateById = async (id, newUser) => {
-  let query = "UPDATE user_accounts SET email = ?, first_name = ?, last_name = ? WHERE uuid = ?";
-  const user = await dal.executeAsync(query, [newUser.email, newUser.first_name, newUser.last_name, id]);
+UserAccount.updateById = async (id, updateUser) => {
+  let query = "UPDATE user_accounts SET password = ?, email = ?, first_name = ?, last_name = ?, phone_number = ?, linkedin_profile = ?, permission_level = ?, areas_of_interest = ?, area_of_specialization = ? WHERE uuid = ?";
+  const user = await dal.executeAsync(query, [updateUser.password, updateUser.email, updateUser.first_name, updateUser.last_name, updateUser.phone_number, updateUser.linkedin_profile, updateUser.permission_level, updateUser.areas_of_interest, updateUser.area_of_specialization, id]);
   return user;
 };
 
@@ -80,7 +80,7 @@ UserAccount.remove = async (id) => {
 
 UserAccount.removeAll = async() => {
 
-  let query = "DELETE * FROM user_accounts";
+  let query = "DELETE FROM user_accounts";
   const users = await dal.executeAsync(query);
   return users;
 

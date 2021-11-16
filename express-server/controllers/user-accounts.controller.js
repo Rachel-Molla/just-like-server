@@ -28,8 +28,28 @@ exports.login = async (request, response) => {
 // Create and Save a new UserAccount
 exports.register = async (request, response) => {
 
+  // Validate request
+  if (!request.body) {
+    response.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  
+  // Create a UserAccount
+  const user_account = new UserAccount({
+    password: request.body.password,
+    email: request.body.email,
+    first_name: request.body.first_name,
+    last_name: request.body.last_name,
+    phone_number: request.body.phone_number,
+    linkedin_profile: request.body.linkedin_profile,
+    permission_level: request.body.permission_level,
+    areas_of_interest: request.body.areas_of_interest,
+    area_of_specialization: request.body.area_of_specialization,
+  });
+
   try {
-    const addedUser = await UserAccount.registerAsync(request.body);
+    const addedUser = await UserAccount.registerAsync(user_account);
     response.status(201).json(addedUser);
   }
   catch (err) {
@@ -73,7 +93,7 @@ exports.update = async (request, response) => {
   console.log(request.body);
 
   try {
-    const user = await UserAccount.updateById(request.params.id, new UserAccount(request.body));
+    const user = await UserAccount.updateById(request.params.id, request.body);
     if (!user) return response.status(401).send(`Not found UserAccount with id ${request.params.id}`);
     response.status(201).json(user);
   }
