@@ -8,12 +8,17 @@ const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
 const userAccountsRoutes = require("./routes/user-accounts.routes")
+var compression = require('compression');
+var helmet = require('helmet');
+
+
 //const io = require('socket.io')(http);
 //const url = require("url");
 //const bodyParser = require('body-parser');
 
 // create express app
 var app = express();
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // Enable cookies: 
 app.use(cookieParser());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // XSS attack protection:
