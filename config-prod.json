@@ -1,0 +1,10 @@
+{
+    "mysql": {
+        "host": "sql112.epizy.com",
+        "port": "3306",
+        "user": "epiz_30478886",
+        "password": "I2Lo1GCf6ze",
+        "name": "epiz_30478886_just_like_db"
+    },
+    "jwtKey": "just_like"
+}
