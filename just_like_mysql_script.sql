@@ -111,7 +111,3 @@ create table if not exists task_team (
 );
 
 show tables;
-
-        
-
-
