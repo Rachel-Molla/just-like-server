@@ -1,4 +1,4 @@
-global.config = require(process.env.NODE_ENV === "production" ? "./config-prod.json" : "./config-dev.json");
+global.config = require(process.env.NODE_ENV === "production" ? "./config-dev.json" : "./config-dev.json");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
