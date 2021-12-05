@@ -27,8 +27,8 @@ UserAccount.registerAsync = async (user) => {
   // Create uuid:
   user.uuid = uuid.v4();
 
-  const query = "INSERT INTO user_accounts(uuid, password, email, first_name, last_name, phone_number, linkedin_profile, permission_level, areas_of_interest, area_of_specialization) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-  const info = await dal.executeAsync(query, [user.uuid, user.password, user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.permission_level, user.areas_of_interest, user.area_of_specialization]);
+  const query = "INSERT INTO user_accounts(uuid, password, email, first_name, last_name, phone_number, linkedin_profile, permission_level, areas_of_interest, area_of_specialization, registration_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() )";
+  const info = await dal.executeAsync(query, [user.uuid, user.password, user.email, user.first_name, user.last_name, user.phone_number, user.linkedin_profile, user.permission_level, user.areas_of_interest, user.area_of_specialization, user.registration_date]);
 
   // Delete password so it wont return to the frontend:
   delete user.password;

@@ -19,7 +19,7 @@ create table if not exists user_accounts (
 	permission_level enum( "admin", "task_manager" , "volunteer" , "junior" ),
     areas_of_interest SET( "job_search", "lecture", "workshop", "else" ),
 	area_of_specialization SET( "Software development", "UI/UX design", "Product management", "QA" ,"Other" ),
-    registration_date datetime,
+    registration_date datetime not null,
     constraint PK_userId primary key (uuid)
 );
 
