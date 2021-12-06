@@ -24,7 +24,6 @@ function executeAsync(query, values) {
     return new Promise((resolve, reject) => {
         connection.query(query, values,(err, result) => {
             if(err) return reject(err);
-            console.log("MySQL connect successfully");
             resolve(result);
         });
     });

@@ -8,6 +8,7 @@ const expressRateLimit = require("express-rate-limit");
 const sanitize = require("./middleware/sanitize");
 const cors = require("cors");
 const userAccountsRoutes = require("./routes/user-accounts.routes")
+const departmentsRoutes = require("./routes/departments.routes")
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api/accounts', userAccountsRoutes);
+app.use('/api/departments', departmentsRoutes);
 
 
 // catch 404 and forward to error handler
